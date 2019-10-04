@@ -1,9 +1,12 @@
 package io.github.vampirestudios.raa.materials;
 
+import io.github.vampirestudios.raa.api.enums.EffectTarget;
 import io.github.vampirestudios.raa.api.enums.GeneratesIn;
 import io.github.vampirestudios.raa.api.enums.OreTypes;
 import io.github.vampirestudios.raa.utils.Rands;
+import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.registry.Registry;
 
 public class MaterialBuilder {
 
@@ -28,6 +31,8 @@ public class MaterialBuilder {
     private int maxXPAmount = 10;
     private int oreClusterSize = 9;
     private int miningLevel;
+    private boolean effect;
+    private MaterialEffect materialEffect;
 
     public static MaterialBuilder create() {
         MaterialBuilder materialBuilder = new MaterialBuilder();
@@ -217,18 +222,42 @@ public class MaterialBuilder {
         return this;
     }
 
+    public MaterialBuilder effect() {
+        this.effect = Rands.chance(5);
+        if (this.effect) {
+            StatusEffect statusEffect = Rands.registry(Registry.STATUS_EFFECT);
+            this.materialEffect = new MaterialEffect(Registry.STATUS_EFFECT.getId(statusEffect), Rands.randInt(4), Rands.randInt(200), Rands.values(EffectTarget.values()));
+        }
+        return this;
+    }
+
+    public MaterialBuilder effect(MaterialEffect materialEffect) {
+        this.effect = true;
+        this.materialEffect = materialEffect;
+        return this;
+    }
+
+    public MaterialBuilder effect(boolean effect) {
+        this.effect = effect;
+        return this;
+    }
+
+    public boolean hasEffect() {
+        return effect;
+    }
+
     public Material build() {
         return oreType == OreTypes.METAL ?
-                new Material(new OreInformation(oreType, generateIn, overlayTexture, oreCount, minXPAmount, maxXPAmount, oreClusterSize), name, RGB, this.miningLevel, storageBlockTexture, resourceItemTexture, Rands.list(OreTypes.METAL_NUGGET_TEXTURES), armor, tools, weapons, glowing, oreFlower, food)
-                : new Material(new OreInformation(oreType, generateIn, overlayTexture, oreCount, minXPAmount, maxXPAmount, oreClusterSize), name, RGB, this.miningLevel, storageBlockTexture, resourceItemTexture, armor, tools, weapons, glowing, oreFlower, food);
+                new Material(new OreInformation(oreType, generateIn, overlayTexture, oreCount, minXPAmount, maxXPAmount, oreClusterSize), name, RGB, this.miningLevel, storageBlockTexture, resourceItemTexture, Rands.list(OreTypes.METAL_NUGGET_TEXTURES), armor, tools, weapons, glowing, oreFlower, food, effect, materialEffect)
+                : new Material(new OreInformation(oreType, generateIn, overlayTexture, oreCount, minXPAmount, maxXPAmount, oreClusterSize), name, RGB, this.miningLevel, storageBlockTexture, resourceItemTexture, armor, tools, weapons, glowing, oreFlower, food, effect, materialEffect);
     }
 
     public Material buildFromJSON() {
         return oreType == OreTypes.METAL ?
                 new Material(new OreInformation(oreType, generateIn, overlayTexture, oreCount, minXPAmount, maxXPAmount, oreClusterSize),
-                name, RGB, miningLevel, storageBlockTexture, resourceItemTexture, nuggetTexture, armor, armorMaterial, tools, weapons, toolMaterial, glowing, oreFlower, food) :
+                name, RGB, miningLevel, storageBlockTexture, resourceItemTexture, nuggetTexture, armor, armorMaterial, tools, weapons, toolMaterial, glowing, oreFlower, food, effect, materialEffect) :
                 new Material(new OreInformation(oreType, generateIn, overlayTexture, oreCount, minXPAmount, maxXPAmount, oreClusterSize),
-                        name, RGB, miningLevel, storageBlockTexture, resourceItemTexture, armor, armorMaterial, tools, weapons, toolMaterial, glowing, oreFlower, food);
+                        name, RGB, miningLevel, storageBlockTexture, resourceItemTexture, armor, armorMaterial, tools, weapons, toolMaterial, glowing, oreFlower, food, effect, materialEffect);
     }
 
 }

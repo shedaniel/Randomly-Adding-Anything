@@ -28,7 +28,7 @@ import java.util.Map;
 
 public class SavingSystem {
 
-    public static final Versions latestVersion = Versions.V1;
+    public static final Versions latestVersion = Versions.V2;
 
     private static File CONFIG_PATH = FabricLoader.getInstance().getConfigDirectory();
 
@@ -58,7 +58,7 @@ public class SavingSystem {
         try {
             BufferedWriter fileWriter = new BufferedWriter(new FileWriter(configFile));
             Material[] materialJSONS = toJSON();
-            fileWriter.write("{\"configVersion\":1,");
+            fileWriter.write("{\"configVersion\":" + latestVersion.getNumber() +",");
             fileWriter.newLine();
             fileWriter.flush();
             fileWriter.write("\"materials\": [");
@@ -122,6 +122,7 @@ public class SavingSystem {
                     }
                     Registry.register(Materials.MATERIALS, new Identifier(RandomlyAddingAnything.MOD_ID, id), material);
                 }
+                if (versions != latestVersion || MaterialFields.needWrite) createFile();
             } else {
                 Materials.init();
                 SavingSystem.createFile();

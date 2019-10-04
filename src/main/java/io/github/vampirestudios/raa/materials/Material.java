@@ -25,7 +25,7 @@ public class Material {
     public Material() {}
 
     public Material(OreInformation oreInformation, String name, int color, int miningLevel, Identifier storageBlockTexture, Identifier resourceItemTexture,
-                    boolean armor, boolean tools, boolean weapons, boolean glowing, boolean oreFlower, boolean food) {
+                    boolean armor, boolean tools, boolean weapons, boolean glowing, boolean oreFlower, boolean food, boolean effect, MaterialEffect materialEffect) {
         this.oreInformation = oreInformation;
         this.name = name;
         this.color = color;
@@ -41,6 +41,8 @@ public class Material {
         this.food = food;
         this.armorMaterial = null;
         this.toolMaterial = null;
+        this.effect = effect;
+        this.materialEffect = materialEffect;
 
         if (this.tools || this.weapons) this.toolMaterial = new CustomToolMaterial(this.name, this.oreInformation.getOreType(),
                 Rands.randIntRange(15,2000), Rands.randFloat(4.0F)+1.5F,
@@ -60,7 +62,7 @@ public class Material {
     }
 
     public Material(OreInformation oreInformation, String name, int color, int miningLevel, Identifier storageBlockTexture, Identifier resourceItemTexture, Identifier nuggetTexture,
-                    boolean armor, boolean tools, boolean weapons, boolean glowing, boolean oreFlower, boolean food) {
+                    boolean armor, boolean tools, boolean weapons, boolean glowing, boolean oreFlower, boolean food, boolean effect, MaterialEffect materialEffect) {
         this.oreInformation = oreInformation;
         this.name = name;
         this.color = color;
@@ -76,6 +78,8 @@ public class Material {
         this.food = food;
         this.armorMaterial = null;
         this.toolMaterial = null;
+        this.effect = effect;
+        this.materialEffect = materialEffect;
 
         if (this.tools || this.weapons) this.toolMaterial = new CustomToolMaterial(this.name, this.oreInformation.getOreType(),
                 Rands.randIntRange(15,2000), Rands.randFloat(4.0F)+1.5F,
@@ -95,7 +99,8 @@ public class Material {
     }
 
     public Material(OreInformation oreInformation, String name, int color, int miningLevel, Identifier storageBlockTexture, Identifier resourceItemTexture,
-                    boolean armor, CustomArmorMaterial armorMaterial, boolean tools, boolean weapons, CustomToolMaterial toolMaterial, boolean glowing, boolean oreFlower, boolean food) {
+                    boolean armor, CustomArmorMaterial armorMaterial, boolean tools, boolean weapons, CustomToolMaterial toolMaterial, boolean glowing, boolean oreFlower, boolean food,
+                    boolean effect, MaterialEffect materialEffect) {
         this.oreInformation = oreInformation;
         this.name = name;
         this.color = color;
@@ -111,10 +116,13 @@ public class Material {
         this.glowing = glowing;
         this.oreFlower = oreFlower;
         this.food = food;
+        this.effect = effect;
+        this.materialEffect = materialEffect;
     }
 
     public Material(OreInformation oreInformation, String name, int color, int miningLevel, Identifier storageBlockTexture, Identifier resourceItemTexture, Identifier nuggetTexture,
-                    boolean armor, CustomArmorMaterial armorMaterial, boolean tools, boolean weapons, CustomToolMaterial toolMaterial, boolean glowing, boolean oreFlower, boolean food) {
+                    boolean armor, CustomArmorMaterial armorMaterial, boolean tools, boolean weapons, CustomToolMaterial toolMaterial, boolean glowing, boolean oreFlower, boolean food,
+                    boolean effect, MaterialEffect materialEffect) {
         this.oreInformation = oreInformation;
         this.name = name;
         this.color = color;
@@ -130,6 +138,8 @@ public class Material {
         this.glowing = glowing;
         this.oreFlower = oreFlower;
         this.food = food;
+        this.effect = effect;
+        this.materialEffect = materialEffect;
     }
 
     public OreInformation getOreInformation() {

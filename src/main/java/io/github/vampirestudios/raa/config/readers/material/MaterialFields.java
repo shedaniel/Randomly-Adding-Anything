@@ -1,11 +1,13 @@
 package io.github.vampirestudios.raa.config.readers.material;
 
 import blue.endless.jankson.JsonObject;
+import io.github.vampirestudios.raa.api.enums.EffectTarget;
 import io.github.vampirestudios.raa.api.enums.GeneratesIn;
 import io.github.vampirestudios.raa.api.enums.OreTypes;
 import io.github.vampirestudios.raa.materials.CustomArmorMaterial;
 import io.github.vampirestudios.raa.materials.CustomToolMaterial;
 import io.github.vampirestudios.raa.materials.MaterialBuilder;
+import io.github.vampirestudios.raa.materials.MaterialEffect;
 import io.github.vampirestudios.raa.utils.Rands;
 import net.minecraft.util.Identifier;
 
@@ -95,40 +97,60 @@ public enum MaterialFields {
             JsonObject oreInfo = jsonObject.getObject("oreInformation");
             OreTypes oreTypes = oreInfo.get(OreTypes.class, "oreType");
 
-            if (jsonObject.get(boolean.class, "tools")) {
-                JsonObject toolObject = jsonObject.getObject("toolMaterial");
-                int durability = toolObject.get(int.class, "durability");
-                int enchantability = toolObject.get(int.class, "enchantability");
-                float miningSpeed = toolObject.get(float.class, "miningSpeed");
-                float attackDamage = toolObject.get(float.class, "attackDamage");
-                float hoeAttackSpeed = toolObject.get(float.class, "hoeAttackSpeed");
-                float axeAttackDamage = toolObject.get(float.class, "axeAttackDamage");
-                float axeAttackSpeed = toolObject.get(float.class, "axeAttackSpeed");
-                float swordAttackDamage = toolObject.get(float.class, "swordAttackDamage");
-                CustomToolMaterial toolMaterial = new CustomToolMaterial(
-                        name, oreTypes, durability, miningSpeed, attackDamage,
-                        miningLevel, enchantability, hoeAttackSpeed, axeAttackDamage,
-                        axeAttackSpeed, swordAttackDamage
-                );
-                builder.tools(toolMaterial);
-            }
-
             if (jsonObject.get(boolean.class, "weapons")) {
                 JsonObject toolObject = jsonObject.getObject("toolMaterial");
-                int durability = toolObject.get(int.class, "durability");
-                int enchantability = toolObject.get(int.class, "enchantability");
-                float miningSpeed = toolObject.get(float.class, "miningSpeed");
-                float attackDamage = toolObject.get(float.class, "attackDamage");
-                float hoeAttackSpeed = toolObject.get(float.class, "hoeAttackSpeed");
-                float axeAttackDamage = toolObject.get(float.class, "axeAttackDamage");
-                float axeAttackSpeed = toolObject.get(float.class, "axeAttackSpeed");
-                float swordAttackDamage = toolObject.get(float.class, "swordAttackDamage");
-                CustomToolMaterial toolMaterial = new CustomToolMaterial(
-                        name, oreTypes, durability, miningSpeed, attackDamage,
-                        miningLevel, enchantability, hoeAttackSpeed, axeAttackDamage,
-                        axeAttackSpeed, swordAttackDamage
-                );
-                builder.weapons(toolMaterial);
+                if (toolObject == null) {
+                    builder.weapons(new CustomToolMaterial(name, oreTypes,
+                            Rands.randIntRange(15,2000), Rands.randFloat(4.0F)+1.5F,
+                            Rands.randFloat(3.0F), miningLevel,
+                            Rands.randIntRange(2,10), Rands.randFloat(4.0F),
+                            Rands.randFloat(3.0F), Rands.randFloat(0.8F),
+                            Rands.randFloat(5.0F)));
+                    needWrite = true;
+                } else {
+                    int durability = toolObject.get(int.class, "durability");
+                    int enchantability = toolObject.get(int.class, "enchantability");
+                    float miningSpeed = toolObject.get(float.class, "miningSpeed");
+                    float attackDamage = toolObject.get(float.class, "attackDamage");
+                    float hoeAttackSpeed = toolObject.get(float.class, "hoeAttackSpeed");
+                    float axeAttackDamage = toolObject.get(float.class, "axeAttackDamage");
+                    float axeAttackSpeed = toolObject.get(float.class, "axeAttackSpeed");
+                    float swordAttackDamage = toolObject.get(float.class, "swordAttackDamage");
+                    CustomToolMaterial toolMaterial = new CustomToolMaterial(
+                            name, oreTypes, durability, miningSpeed, attackDamage,
+                            miningLevel, enchantability, hoeAttackSpeed, axeAttackDamage,
+                            axeAttackSpeed, swordAttackDamage
+                    );
+                    builder.weapons(toolMaterial);
+                }
+            }
+
+            if (jsonObject.get(boolean.class, "tools")) {
+                JsonObject toolObject = jsonObject.getObject("toolMaterial");
+                if (toolObject == null) {
+                    builder.tools(new CustomToolMaterial(name, oreTypes,
+                            Rands.randIntRange(15,2000), Rands.randFloat(4.0F)+1.5F,
+                            Rands.randFloat(3.0F), miningLevel,
+                            Rands.randIntRange(2,10), Rands.randFloat(4.0F),
+                            Rands.randFloat(3.0F), Rands.randFloat(0.8F),
+                            Rands.randFloat(5.0F)));
+                    needWrite = true;
+                } else {
+                    int durability = toolObject.get(int.class, "durability");
+                    int enchantability = toolObject.get(int.class, "enchantability");
+                    float miningSpeed = toolObject.get(float.class, "miningSpeed");
+                    float attackDamage = toolObject.get(float.class, "attackDamage");
+                    float hoeAttackSpeed = toolObject.get(float.class, "hoeAttackSpeed");
+                    float axeAttackDamage = toolObject.get(float.class, "axeAttackDamage");
+                    float axeAttackSpeed = toolObject.get(float.class, "axeAttackSpeed");
+                    float swordAttackDamage = toolObject.get(float.class, "swordAttackDamage");
+                    CustomToolMaterial toolMaterial = new CustomToolMaterial(
+                            name, oreTypes, durability, miningSpeed, attackDamage,
+                            miningLevel, enchantability, hoeAttackSpeed, axeAttackDamage,
+                            axeAttackSpeed, swordAttackDamage
+                    );
+                    builder.tools(toolMaterial);
+                }
             }
         } else {
             if (jsonObject.get(boolean.class, "tools")) {
@@ -190,11 +212,35 @@ public enum MaterialFields {
             }
         }
         return builder;
+    }),
+    EFFECT(Versions.V2, "effect", (configVersion, builder, jsonObject) -> {
+        if (configVersion.getNumber() < 2) builder.effect();
+        else {
+            builder.effect(jsonObject.get(boolean.class, "effect"));
+        }
+        return builder;
+    }),
+    MATERIAL_EFFECT(Versions.V2, "materialEffect", (configVersion, builder, jsonObject) -> {
+        if (configVersion.getNumber() > 1) {
+            if (jsonObject.get(boolean.class, "effect")) {
+                JsonObject materialEffect = jsonObject.getObject("materialEffect");
+                Identifier identifier = idFromJson(materialEffect, "identifier");
+                int amplifier = materialEffect.get(int.class, "amplifier");
+                int duration = materialEffect.get(int.class, "duration");
+                EffectTarget target = materialEffect.get(EffectTarget.class, "target");
+                builder.effect(new MaterialEffect(
+                        identifier, amplifier, duration, target
+                ));
+            }
+        }
+        return builder;
     });
 
     private Versions implementedVersion;
     private String name;
     private MaterialFieldsInterface fieldsInterface;
+
+    public static boolean needWrite = false;
 
     MaterialFields(Versions implementedVersion, String name, MaterialFieldsInterface fieldsInterface) {
         this.implementedVersion = implementedVersion;

@@ -2,7 +2,8 @@ package io.github.vampirestudios.raa.config.readers.material;
 
 public enum Versions {
     OLD(0),
-    V1(1);
+    V1(1),
+    V2(2);
 
     private int number;
 

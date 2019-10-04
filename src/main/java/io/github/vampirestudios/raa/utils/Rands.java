@@ -1,5 +1,7 @@
 package io.github.vampirestudios.raa.utils;
 
+import net.minecraft.util.registry.Registry;
+
 import java.util.List;
 import java.util.Random;
 
@@ -25,6 +27,10 @@ public class Rands {
 
     public static <O extends Object> O values(O[] values) {
         return values[randInt(values.length)];
+    }
+
+    public static <O extends Object> O registry(Registry<O> values) {
+        return values.getRandom(new Random());
     }
 
     public static <O extends Object> O list(List<O> list) {
