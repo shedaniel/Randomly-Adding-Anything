@@ -19,6 +19,8 @@ public class Material {
     private boolean glowing;
     private boolean oreFlower;
     private boolean food;
+    private boolean effect;
+    private MaterialEffect materialEffect;
 
     public Material() {}
 
@@ -188,5 +190,13 @@ public class Material {
 
     public int getMiningLevel() {
         return miningLevel;
+    }
+
+    public boolean hasEffect() {
+        return effect;
+    }
+
+    public MaterialEffect getMaterialEffect() {
+        return materialEffect;
     }
 }
