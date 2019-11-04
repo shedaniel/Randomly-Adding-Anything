@@ -18,6 +18,6 @@ public enum LangEnum {
     }
 
     public Map<String, String> getCharMap() {
-        return nameGenerator.getSpecialCharatersMap();
+        return nameGenerator.getSpecialCharactersMap();
     }
 }

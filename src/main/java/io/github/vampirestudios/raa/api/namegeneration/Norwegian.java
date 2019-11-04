@@ -10,7 +10,7 @@ public class Norwegian implements INameGenerator {
     }
 
     @Override
-    public Map<String, String> getSpecialCharatersMap() {
+    public Map<String, String> getSpecialCharactersMap() {
         return null;
     }
 

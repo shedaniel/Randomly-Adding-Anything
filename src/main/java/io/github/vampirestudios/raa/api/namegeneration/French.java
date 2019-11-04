@@ -38,7 +38,7 @@ public class French implements INameGenerator {
     }
 
     @Override
-    public Map<String, String> getSpecialCharatersMap() {
+    public Map<String, String> getSpecialCharactersMap() {
         Map<String, String> map = new HashMap<>();
         map.put("é","e");
         map.put("è","e");

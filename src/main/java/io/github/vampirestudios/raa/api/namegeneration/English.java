@@ -101,7 +101,7 @@ public class English implements INameGenerator {
     }
 
     @Override
-    public Map<String, String> getSpecialCharatersMap() {
+    public Map<String, String> getSpecialCharactersMap() {
         return new HashMap<>();
     }
 
